@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: "certificate-manager-backend"
+  datasource:
+    url: jdbc:postgresql://minikube:30001/database
+    username: user
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+
+
+vpn-server:
+  security:
+    allow-serverside-certificate-generation: false
+    allow-serverside-certificate-revocation: false
