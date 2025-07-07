@@ -1,1 +1,14 @@
-<p>login works!</p>
+
+
+
+<input type="text" pInputText [(ngModel)]="username" />
+
+<p-password [(ngModel)]="password" [feedback]="false" />
+
+<button
+  pButton
+  type="button"
+  label="Login"
+  (click)="login()"
+  [disabled]="!username || !password">
+</button>
