@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Password} from "primeng/password";
 import {FormsModule} from "@angular/forms";
 import {AuthService} from "../../../service/auth.service";
 import {InputText} from "primeng/inputtext";
 import {ButtonDirective} from "primeng/button";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ import {ButtonDirective} from "primeng/button";
   standalone: true,
   styleUrl: './login.component.scss'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
 
 
   password: string = '';
@@ -26,14 +27,21 @@ export class LoginComponent {
 
   constructor(
     private authService: AuthService,
+    private router: Router
   ) {
+  }
+
+  ngOnInit() {
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(['/dashboard']);
+    }
   }
 
   login() {
     this.authService.login(this.username, this.password).subscribe({
       next: (response) => {
         console.log('Login successful', response);
-        // Handle successful login, e.g., redirect to dashboard
+        this.router.navigate(['/dashboard']);
       },
       error: (error) => {
         console.error('Login failed', error);
