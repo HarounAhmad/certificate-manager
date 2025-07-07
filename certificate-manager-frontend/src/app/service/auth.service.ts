@@ -45,4 +45,12 @@ export class AuthService {
     localStorage.removeItem(this.tokenKey);
   }
 
+
+  getUsername(): string {
+    const token = localStorage.getItem(this.tokenKey);
+    if (!token) return '';
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.sub;
+  }
+
 }

@@ -1,0 +1,138 @@
+<p-table
+  #dt
+  [value]="logs"
+  dataKey="id"
+  [paginator]="true"
+  [rows]="10"
+  [rowsPerPageOptions]="[10, 25, 50]"
+  [lazy]="true"
+  [totalRecords]="totalRecords"
+  [loading]="loading"
+  [globalFilterFields]="['id','action','username','actionType']"
+  [tableStyle]="{ 'min-width': '75rem' }"
+  (onLazyLoad)="loadLogsLazy($event)"
+>
+  <ng-template pTemplate="caption">
+    <div class="flex">
+      <p-iconfield iconPosition="left" class="ml-auto">
+        <p-inputicon>
+          <i class="pi pi-search"></i>
+        </p-inputicon>
+        <input
+          pInputText
+          type="text"
+          (input)="onGlobalFilter($event)"
+          placeholder="Search keyword"
+        />
+      </p-iconfield>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="id">
+        ID <p-sortIcon field="id"></p-sortIcon>
+        <p-columnFilter field="id" type="numeric" display="menu">
+          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <input
+              pInputText
+              type="number"
+              (input)="filter($event.target)"
+              placeholder="Search ID"
+            />
+          </ng-template>
+        </p-columnFilter>
+      </th>
+
+      <th pSortableColumn="action">
+        Action <p-sortIcon field="action"></p-sortIcon>
+        <p-columnFilter field="action" matchMode="contains" display="menu">
+          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <input
+              pInputText
+              type="text"
+              (input)="filter($event.target)"
+              placeholder="Search Action"
+            />
+          </ng-template>
+        </p-columnFilter>
+      </th>
+
+      <th pSortableColumn="username">
+        Username <p-sortIcon field="username"></p-sortIcon>
+        <p-columnFilter field="username" matchMode="contains" display="menu">
+          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <input
+              pInputText
+              type="text"
+              (input)="filter($event.target)"
+              placeholder="Search Username"
+            />
+          </ng-template>
+        </p-columnFilter>
+      </th>
+
+      <th pSortableColumn="timestamp">
+        Timestamp <p-sortIcon field="timestamp"></p-sortIcon>
+        <p-columnFilter field="timestamp" matchMode="contains" display="menu">
+          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <input
+              pInputText
+              type="text"
+              (input)="filter($event.target)"
+              placeholder="Search Timestamp"
+            />
+          </ng-template>
+        </p-columnFilter>
+      </th>
+
+      <th>Details</th>
+
+      <th pSortableColumn="affectedUser">
+        Affected User <p-sortIcon field="affectedUser"></p-sortIcon>
+        <p-columnFilter field="affectedUser" matchMode="contains" display="menu">
+          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <input
+              pInputText
+              type="text"
+              (input)="filter($event.target)"
+              placeholder="Search Affected User"
+            />
+          </ng-template>
+        </p-columnFilter>
+      </th>
+
+      <th pSortableColumn="actionType">
+        Action Type <p-sortIcon field="actionType"></p-sortIcon>
+        <p-columnFilter field="actionType" matchMode="contains" display="menu">
+          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <input
+              pInputText
+              type="text"
+              (input)="filter($event)"
+              placeholder="Search Action Type"
+            />
+          </ng-template>
+        </p-columnFilter>
+      </th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-log>
+    <tr>
+      <td>{{ log.id }}</td>
+      <td>{{ log.action }}</td>
+      <td>{{ log.actor }}</td>
+      <td>{{ log.timestamp }}</td>
+      <td><pre>{{ log.details }}</pre></td>
+      <td>{{ log.affectedUser }}</td>
+      <td>{{ log.actionType }}</td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="7">No audit logs found.</td>
+    </tr>
+  </ng-template>
+</p-table>

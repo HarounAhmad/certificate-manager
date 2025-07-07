@@ -8,6 +8,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
+
 @Component
 public class DataLoader implements CommandLineRunner {
 
@@ -21,7 +23,7 @@ public class DataLoader implements CommandLineRunner {
             User sysadmin = new User();
             sysadmin.setUsername("sysadmin");
             sysadmin.setPassword(passwordEncoder.encode("password"));
-            sysadmin.setRole(Role.SYSADMIN);
+            sysadmin.setRoles(Set.of(Role.SYSADMIN));
             userRepository.save(sysadmin);
         }
 
@@ -29,7 +31,7 @@ public class DataLoader implements CommandLineRunner {
             User auditor = new User();
             auditor.setUsername("auditor");
             auditor.setPassword(passwordEncoder.encode("password"));
-            auditor.setRole(Role.AUDITOR);
+            auditor.setRoles(Set.of(Role.AUDITOR));
             userRepository.save(auditor);
         }
 
@@ -37,8 +39,9 @@ public class DataLoader implements CommandLineRunner {
             User certAdmin = new User();
             certAdmin.setUsername("certadmin");
             certAdmin.setPassword(passwordEncoder.encode("password"));
-            certAdmin.setRole(Role.CERT_ADMIN);
+            certAdmin.setRoles(Set.of(Role.CERT_ADMIN));
             userRepository.save(certAdmin);
         }
     }
+
 }

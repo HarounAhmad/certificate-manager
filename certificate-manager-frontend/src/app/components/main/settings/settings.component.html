@@ -1,0 +1,18 @@
+<div style="display: flex; height: 100vh;">
+  <div style="width: 40%; height: 90%">
+    <p-panel header="Users"   [style]="{ height: '100%', display: 'flex', flexDirection: 'column', margin: '1rem' }">
+      <div style="flex: 1; overflow: auto;">
+        <app-user-list
+          [userList]="userList"
+          [loading]="loadingUserList"
+          [userRolesOptions]="userRolesOptions"
+          (updateUser)="updateUser($event)">
+        </app-user-list>
+      </div>
+    </p-panel>
+  </div>
+
+  <div style="flex: 1; height: 100%;">
+    <!-- Main content -->
+  </div>
+</div>

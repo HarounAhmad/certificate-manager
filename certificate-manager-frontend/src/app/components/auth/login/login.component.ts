@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit{
 
   ngOnInit() {
     if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/app/dashboard']);
     }
   }
 
@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit{
     this.authService.login(this.username, this.password).subscribe({
       next: (response) => {
         console.log('Login successful', response);
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/app/dashboard']);
       },
       error: (error) => {
         console.error('Login failed', error);
