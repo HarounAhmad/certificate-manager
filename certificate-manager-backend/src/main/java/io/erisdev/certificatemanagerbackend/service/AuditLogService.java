@@ -1,5 +1,6 @@
 package io.erisdev.certificatemanagerbackend.service;
 
+import io.erisdev.certificatemanagerbackend.dto.AuditLogFilterRequest;
 import io.erisdev.certificatemanagerbackend.dto.AuditLogResponse;
 import io.erisdev.certificatemanagerbackend.entity.AuditActionType;
 import io.erisdev.certificatemanagerbackend.entity.AuditLog;
@@ -8,6 +9,7 @@ import io.erisdev.certificatemanagerbackend.repository.AuditLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
@@ -17,6 +19,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.time.Instant;
 
+import static io.erisdev.certificatemanagerbackend.util.AuditLogSpec.*;
+
 @Service
 public class AuditLogService {
 
@@ -24,12 +28,11 @@ public class AuditLogService {
     private AuditLogRepository auditLogRepository;
 
 
-    public Page<AuditLogResponse> getAuditLogs(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return auditLogRepository.findAll(pageable)
-                .map(this::mapToResponse);
+    public Page<AuditLogResponse> getAuditLogs(AuditLogFilterRequest request) {
+        Pageable pageable = PageRequest.of(request.getPage(), request.getSize());
+        Specification<AuditLog> spec = buildSpecification(request.getFilters());
+        return auditLogRepository.findAll(spec, pageable).map(this::mapToResponse);
     }
-
 
     public void createAuditLog(String action, String username, Object before, Object after, AuditActionType actionType) {
         String diff = computeObjectDiff(before, after);

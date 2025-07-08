@@ -5,6 +5,8 @@ import {InputText} from "primeng/inputtext";
 import {IconField} from "primeng/iconfield";
 import {InputIcon} from "primeng/inputicon";
 import {FormsModule} from "@angular/forms";
+import {Calendar} from "primeng/calendar";
+import {DatePicker} from "primeng/datepicker";
 
 @Component({
   selector: 'app-audit-log',
@@ -13,7 +15,9 @@ import {FormsModule} from "@angular/forms";
     InputText,
     IconField,
     InputIcon,
-    FormsModule
+    FormsModule,
+    Calendar,
+    DatePicker
   ],
   templateUrl: './audit-log.component.html',
   standalone: true,
@@ -22,6 +26,13 @@ import {FormsModule} from "@angular/forms";
 export class AuditLogComponent implements OnInit{
 
   logs: any[] = [];
+  idFilter = '';
+  actionFilter = '';
+  actorFilter = '';
+  timestampFilter: Date[] = [];
+  affectedUserFilter = '';
+  actionTypeFilter = '';
+
 
   @ViewChild('dt') dt!: Table;
   loading: boolean = false;
@@ -33,7 +44,7 @@ export class AuditLogComponent implements OnInit{
   ) {}
 
   ngOnInit() {
-    this.auditLogService.getAuditLogs(0, 10).subscribe(
+/*    this.auditLogService.getAuditLogs(0, 10).subscribe(
       response => {
         this.logs = response.content || [];
         console.log('Audit logs fetched successfully:', this.logs)
@@ -41,7 +52,7 @@ export class AuditLogComponent implements OnInit{
       error => {
         console.error('Error fetching audit logs:', error);
       }
-    );
+    );*/
   }
 
   onGlobalFilter(event: Event) {
@@ -49,7 +60,12 @@ export class AuditLogComponent implements OnInit{
     this.dt.filterGlobal(input.value, 'contains');
   }
 
-  loadLogsLazy($event: TableLazyLoadEvent) {
-
+  loadLogsLazy(event: TableLazyLoadEvent) {
+    this.loading = true;
+    this.auditLogService.lazyLoadAuditLogs(event).subscribe(response => {
+      this.logs = response.content;
+      this.totalRecords = response.totalElements;
+      this.loading = false;
+    });
   }
 }

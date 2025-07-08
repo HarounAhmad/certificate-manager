@@ -37,7 +37,8 @@
             <input
               pInputText
               type="number"
-              (input)="filter($event.target)"
+              [(ngModel)]="idFilter"
+              (input)="filter(idFilter)"
               placeholder="Search ID"
             />
           </ng-template>
@@ -51,7 +52,8 @@
             <input
               pInputText
               type="text"
-              (input)="filter($event.target)"
+              [(ngModel)]="actionFilter"
+              (input)="filter(actionFilter)"
               placeholder="Search Action"
             />
           </ng-template>
@@ -65,7 +67,8 @@
             <input
               pInputText
               type="text"
-              (input)="filter($event.target)"
+              [(ngModel)]="actorFilter"
+              (input)="filter(actorFilter)"
               placeholder="Search Username"
             />
           </ng-template>
@@ -74,14 +77,17 @@
 
       <th pSortableColumn="timestamp">
         Timestamp <p-sortIcon field="timestamp"></p-sortIcon>
-        <p-columnFilter field="timestamp" matchMode="contains" display="menu">
+        <p-columnFilter field="timestamp" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <input
-              pInputText
-              type="text"
-              (input)="filter($event.target)"
-              placeholder="Search Timestamp"
-            />
+            <p-datePicker
+              [(ngModel)]="timestampFilter"
+              selectionMode="range"
+              dateFormat="yy-mm-dd"
+              placeholder="Select date range"
+              appendTo="body"
+              [showButtonBar]="true"
+              (onSelect)="filter(timestampFilter)">
+            </p-datePicker>
           </ng-template>
         </p-columnFilter>
       </th>
@@ -95,7 +101,8 @@
             <input
               pInputText
               type="text"
-              (input)="filter($event.target)"
+              [(ngModel)]="affectedUserFilter"
+              (input)="filter(affectedUserFilter)"
               placeholder="Search Affected User"
             />
           </ng-template>
@@ -109,7 +116,8 @@
             <input
               pInputText
               type="text"
-              (input)="filter($event)"
+              [(ngModel)]="actionTypeFilter"
+              (input)="filter(actionFilter)"
               placeholder="Search Action Type"
             />
           </ng-template>
