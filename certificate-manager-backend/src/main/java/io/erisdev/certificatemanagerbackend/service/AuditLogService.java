@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 import java.lang.reflect.Field;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.time.Instant;
@@ -111,4 +112,7 @@ public class AuditLogService {
     }
 
 
+    public List<AuditActionType> getAuditLogTypes() {
+        return List.of(AuditActionType.values());
+    }
 }

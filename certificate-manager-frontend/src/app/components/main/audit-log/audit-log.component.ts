@@ -7,6 +7,7 @@ import {InputIcon} from "primeng/inputicon";
 import {FormsModule} from "@angular/forms";
 import {Calendar} from "primeng/calendar";
 import {DatePicker} from "primeng/datepicker";
+import {MultiSelect} from "primeng/multiselect";
 
 @Component({
   selector: 'app-audit-log',
@@ -17,7 +18,8 @@ import {DatePicker} from "primeng/datepicker";
     InputIcon,
     FormsModule,
     Calendar,
-    DatePicker
+    DatePicker,
+    MultiSelect
   ],
   templateUrl: './audit-log.component.html',
   standalone: true,
@@ -39,6 +41,9 @@ export class AuditLogComponent implements OnInit{
   totalRecords: number = 0;
 
 
+  actionTypeOptions: { label: string, value: string }[] = []
+  selectedActionTypes: any;
+
   constructor(
     private auditLogService: AuditLogService,
   ) {}
@@ -53,6 +58,14 @@ export class AuditLogComponent implements OnInit{
         console.error('Error fetching audit logs:', error);
       }
     );*/
+    this.auditLogService.getActionTypes().subscribe(
+      response => {
+        this.actionTypeOptions = response.map((type: string) => ({ label: type, value: type }));
+      },
+      error => {
+        console.error('Error fetching action types:', error);
+      }
+    );
   }
 
   onGlobalFilter(event: Event) {

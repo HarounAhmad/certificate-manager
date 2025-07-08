@@ -57,4 +57,9 @@ export class AuditLogService {
   getToken(): string {
     return localStorage.getItem('jwt_token') || '';
   }
+
+  getActionTypes() {
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${this.getToken()}`);
+    return this.http.get<string[]>(`${this.apiUrl}/action-types`, { headers });
+  }
 }

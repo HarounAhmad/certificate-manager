@@ -1,5 +1,6 @@
 <p-table
   #dt
+  class="p-2"
   [value]="logs"
   dataKey="id"
   [paginator]="true"
@@ -12,21 +13,6 @@
   [tableStyle]="{ 'min-width': '75rem' }"
   (onLazyLoad)="loadLogsLazy($event)"
 >
-  <ng-template pTemplate="caption">
-    <div class="flex">
-      <p-iconfield iconPosition="left" class="ml-auto">
-        <p-inputicon>
-          <i class="pi pi-search"></i>
-        </p-inputicon>
-        <input
-          pInputText
-          type="text"
-          (input)="onGlobalFilter($event)"
-          placeholder="Search keyword"
-        />
-      </p-iconfield>
-    </div>
-  </ng-template>
 
   <ng-template pTemplate="header">
     <tr>
@@ -113,13 +99,14 @@
         Action Type <p-sortIcon field="actionType"></p-sortIcon>
         <p-columnFilter field="actionType" matchMode="contains" display="menu">
           <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-            <input
-              pInputText
-              type="text"
-              [(ngModel)]="actionTypeFilter"
-              (input)="filter(actionFilter)"
-              placeholder="Search Action Type"
-            />
+            <p-multi-select
+              [options]="actionTypeOptions"
+              [(ngModel)]="selectedActionTypes"
+              optionLabel="label"
+              optionValue="value"
+              placeholder="Select Action Types"
+              (onChange)="filter(selectedActionTypes)">
+            </p-multi-select>
           </ng-template>
         </p-columnFilter>
       </th>

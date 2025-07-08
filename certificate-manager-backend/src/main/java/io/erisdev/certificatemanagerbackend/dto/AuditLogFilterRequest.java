@@ -15,7 +15,7 @@ public class AuditLogFilterRequest {
 
     @Data
     public static class FilterMeta {
-        private String value;
+        private Object value;
         private String matchMode;
         private String from;
         private String to;
